@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/kaenriquez/Sample_Docker.git', branch: 'master', credentialsId: 'git-creds'])
+        git 'https://github.com/kaenriquez/node-todo-frontend.git'
 
       }
     }
