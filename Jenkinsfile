@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/kaenriquez/node-todo-frontend.git'
+        git 'https://github.com/kaenriquez/Sample_Docker.git'
 
       }
     }
