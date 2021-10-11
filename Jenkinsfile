@@ -1,7 +1,7 @@
 
 pipeline {
   environment {
-    imagename = "kaenriquez/docker-test"
+    registry = "kaenriquez/docker-test"
     registryCredential = 'docker'
     dockerImage = ''
   }
@@ -10,13 +10,12 @@ pipeline {
     stage('Cloning Git') {
       steps {
         git 'https://github.com/kaenriquez/Sample_Docker.git'
-
       }
     }
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build imagename
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
       }
     }
@@ -24,18 +23,14 @@ pipeline {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
+            dockerImage.push()
           }
         }
       }
     }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
-
+        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }
